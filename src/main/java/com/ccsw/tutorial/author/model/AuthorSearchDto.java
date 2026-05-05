@@ -3,18 +3,18 @@ package com.ccsw.tutorial.author.model;
 import com.ccsw.tutorial.common.pagination.PageableRequest;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 public class AuthorSearchDto {
 
-    private PageableRequest pageable;
+  private PageableRequest pageable;
 
-    public PageableRequest getPageable() {
-        return pageable;
-    }
+  public PageableRequest getPageable() {
+    return pageable;
+  }
 
-    public void setPageable(PageableRequest pageable) {
-        this.pageable = pageable;
-    }
+  public void setPageable(PageableRequest pageable) {
+    this.pageable = pageable;
+  }
 }

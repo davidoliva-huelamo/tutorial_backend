@@ -1,7 +1,7 @@
 package com.ccsw.tutorial.client.model;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 public class ClientDto {

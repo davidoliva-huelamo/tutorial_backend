@@ -5,16 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 @Configuration
 public class ModelMapperConfig {
 
-    @Bean
-    public ModelMapper getModelMapper() {
+  @Bean
+  public ModelMapper getModelMapper() {
 
-        return new ModelMapper();
-    }
+    return new ModelMapper();
+  }
 
 }

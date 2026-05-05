@@ -14,58 +14,63 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 @Service
 @Transactional
 public class GameServiceImpl implements GameService {
 
-    @Autowired
-    GameRepository gameRepository;
+  @Autowired
+  GameRepository gameRepository;
 
-    @Autowired
-    AuthorService authorService;
+  @Autowired
+  AuthorService authorService;
 
-    @Autowired
-    CategoryService categoryService;
+  @Autowired
+  CategoryService categoryService;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Game> find(String title, Long idCategory) {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Game> find(String title, Long idCategory) {
 
-        GameSpecification titleSpec = new GameSpecification(new SearchCriteria("title", ":", title));
-        GameSpecification categorySpec = new GameSpecification(new SearchCriteria("category.id", ":", idCategory));
+    GameSpecification titleSpec = new GameSpecification(new SearchCriteria("title", ":", title));
+    GameSpecification categorySpec = new GameSpecification(new SearchCriteria("category.id", ":", idCategory));
 
-        //Specification<Game> spec = Specification.where(titleSpec).and(categorySpec);
-        // Desde la versión 3.5.0 de Spring Boot, la nueva manera es
-        Specification<Game> spec = titleSpec.and(categorySpec);
+    //Specification<Game> spec = Specification.where(titleSpec).and(categorySpec);
+    // Desde la versión 3.5.0 de Spring Boot, la nueva manera es
+    Specification<Game> spec = titleSpec.and(categorySpec);
 
-        return this.gameRepository.findAll(spec);
+    return this.gameRepository.findAll(spec);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void save(Long id, GameDto dto) {
+
+    Game game;
+
+    if (id == null) {
+      game = new Game();
+    } else {
+      game = this.gameRepository.findById(id).orElse(null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void save(Long id, GameDto dto) {
+    BeanUtils.copyProperties(dto, game, "id", "author", "category");
 
-        Game game;
+    game.setAuthor(authorService.get(dto.getAuthor().getId()));
+    game.setCategory(categoryService.get(dto.getCategory().getId()));
 
-        if (id == null) {
-            game = new Game();
-        } else {
-            game = this.gameRepository.findById(id).orElse(null);
-        }
+    this.gameRepository.save(game);
+  }
 
-        BeanUtils.copyProperties(dto, game, "id", "author", "category");
-
-        game.setAuthor(authorService.get(dto.getAuthor().getId()));
-        game.setCategory(categoryService.get(dto.getCategory().getId()));
-
-        this.gameRepository.save(game);
-    }
+  @Override
+  public Game get(Long id) {
+    return this.gameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Game no encontrado con id: " + id));
+  }
 
 }

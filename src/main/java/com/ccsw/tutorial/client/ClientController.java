@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 @Tag(name = "Client", description = "API of Client")

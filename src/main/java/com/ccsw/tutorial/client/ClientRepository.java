@@ -4,7 +4,7 @@ import com.ccsw.tutorial.client.model.Client;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 public interface ClientRepository extends CrudRepository<Client, Long> {

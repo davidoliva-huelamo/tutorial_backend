@@ -6,7 +6,7 @@ import com.ccsw.tutorial.client.model.ClientDto;
 import java.util.List;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 public interface ClientService {

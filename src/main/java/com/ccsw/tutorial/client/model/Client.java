@@ -3,7 +3,7 @@ package com.ccsw.tutorial.client.model;
 import jakarta.persistence.*;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 @Entity

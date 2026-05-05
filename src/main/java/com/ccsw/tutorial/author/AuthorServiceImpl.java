@@ -12,73 +12,73 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author ccsw
+ * @author David Oliva Huelamo
  *
  */
 @Service
 @Transactional
 public class AuthorServiceImpl implements AuthorService {
 
-    @Autowired
-    AuthorRepository authorRepository;
+  @Autowired
+  AuthorRepository authorRepository;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Author get(Long id) {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Author get(Long id) {
 
-        return this.authorRepository.findById(id).orElse(null);
+    return this.authorRepository.findById(id).orElse(null);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Page<Author> findPage(AuthorSearchDto dto) {
+
+    return this.authorRepository.findAll(dto.getPageable().getPageable());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void save(Long id, AuthorDto data) {
+
+    Author author;
+
+    if (id == null) {
+      author = new Author();
+    } else {
+      author = this.get(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Page<Author> findPage(AuthorSearchDto dto) {
+    BeanUtils.copyProperties(data, author, "id");
 
-        return this.authorRepository.findAll(dto.getPageable().getPageable());
+    this.authorRepository.save(author);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void delete(Long id) throws Exception {
+
+    if (this.get(id) == null) {
+      throw new Exception("Not exists");
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void save(Long id, AuthorDto data) {
+    this.authorRepository.deleteById(id);
+  }
 
-        Author author;
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Author> findAll() {
 
-        if (id == null) {
-            author = new Author();
-        } else {
-            author = this.get(id);
-        }
-
-        BeanUtils.copyProperties(data, author, "id");
-
-        this.authorRepository.save(author);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void delete(Long id) throws Exception {
-
-        if (this.get(id) == null) {
-            throw new Exception("Not exists");
-        }
-
-        this.authorRepository.deleteById(id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Author> findAll() {
-
-        return (List<Author>) this.authorRepository.findAll();
-    }
+    return (List<Author>) this.authorRepository.findAll();
+  }
 
 }
